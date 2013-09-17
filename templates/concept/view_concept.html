@@ -1,0 +1,92 @@
+{% extends 'concept/my_concepts.html' %}
+
+{% block content %}
+    <form action="" method="POST">
+    {% csrf_token %}
+        <div class="row">
+            <div class="short_field">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <span class="error_marker">X</span>
+                    {{ form.name.errors }}
+                {% endif %}
+            </div>
+            <div class="tiny_field">
+                {{ form.active.label_tag }}
+                {{ form.active }}
+                {% if form.active.errors %}
+                    <span class="error_marker">X</span>
+                    {{ form.active.errors }}
+                {% endif %}
+            </div>
+            <div class="tiny_field">
+                {{ form.honeypot.label_tag }}
+                {{ form.honeypot }}
+                {% if form.honeypot.errors %}
+                    <span class="error_marker">X</span>
+                    {{ form.honeypot.errors }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="short_field">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <span class="error_marker">X</span>
+                    {{ form.email.errors }}
+                {% endif %}
+            </div>
+            <div class="short_field">
+                {{ form.subject.label_tag }}
+                {{ form.subject }}
+                {% if form.subject.errors %}
+                    <span class="error_marker">X</span>
+                    {{ form.subject.errors }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="long_field">
+                {{ form.redirect_url.label_tag }}
+                {{ form.redirect_url }}
+                {% if form.redirect_url.errors %}
+                    <span class="error_marker">X</span>
+                    {{ form.redirect_url.errors }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="long_field">
+                {{ form.template.label_tag }}
+                {{ form.template }}
+                {% if form.template.errors %}
+                    <span class="error_marker">X</span>
+                    {{ form.template.errors }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="submit">
+                <input type="submit" value="Save changes" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="long_field">
+                <pre id="example_form">
+                </pre>
+            </div>
+        </div>
+    <form>
+{% endblock %}
+
+{% block tail_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        formd.example_form({
+            url: "{% url 'message-api' %}",
+            code: "{{ concept.code }}"
+        });
+    </script>
+{% endblock %}

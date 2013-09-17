@@ -1,0 +1,43 @@
+{% extends 'account/base.html' %}
+{% load quota_tags %}
+
+{% block subnav %}
+    {% with active="my-messages" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    {% quota_progress user "message" %}
+    <div class="row">
+        <div class="long_field">
+            <table id="form_list">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Subject</th>
+                        <th>Created at</th>
+                        <th>Sent</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in form_messages %}
+                        <tr>
+                            <td>{{ message.pk }}</td>
+                            <td>{{ message.subject }}</td>
+                            <td>{{ message.created_at }}</td>
+                            <td>{{ message.sent }}</td>
+                            <td class="cell_small"><a href="{% url 'view-message' message_id=message.pk %}">view</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% if user.available_message_count < 50 %}
+        <div class="row upgrade_cta">
+            <p>Upgrade your plan to increase your message quota. <a href="{% url 'my-plan' %}">Upgrade now</a></p>
+        </div>
+    {% endif %}
+{% endblock %}

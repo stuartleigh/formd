@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    {% if messages %}
+        <ul id="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="row">
+        {% block subnav %}
+            <nav id="account_nav">
+                <ul class="side-nav">
+                    <li{% if active == "my-account" %} class="active"{% endif %}><a href="{% url 'my-account' %}">My account</a></li>
+                    <li{% if active == "my-concepts" %} class="active"{% endif %}><a href="{% url 'my-concepts' %}">My forms</a></li>
+                    <li{% if active == "my-messages" %} class="active"{% endif %}><a href="{% url 'my-messages' %}">My messages</a></li>
+                    <li class="divider"></li>
+                    <li{% if active == "my-plan" %} class="active"{% endif %}><a href="{% url 'my-plan' %}">My plan</a></li>
+                    <li{% if active == "my-password" %} class="active"{% endif %}><a href="{% url 'my-password' %}">My password</a></li>
+                </ul>
+            </nav>
+        {% endblock %}
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

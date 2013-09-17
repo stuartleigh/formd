@@ -1,0 +1,17 @@
+{% extends 'account/base.html' %}
+{% load quota_tags %}
+
+{% block subnav %}
+    {% with active="my-account" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <h2>Domain quota</h2>
+    {% quota_progress user "domain" %}
+    <h2>Form quota</h2>
+    {% quota_progress user "concept" %}
+    <h2>Message quota</h2>
+    {% quota_progress user "message" %}
+{% endblock %}

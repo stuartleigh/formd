@@ -1,0 +1,21 @@
+{% extends 'account/base.html' %}
+
+{% block subnav %}
+    {% with active="my-messages" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="long_field">
+            <p>{{ message.concept.subject }} <span class="minimal">({% if message.sent %}sent at: {{ message.sent_at }}{% else %}not sent yet{% endif %})</span></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="long_field">
+            <pre id="message_template">{{ message.render }}</pre>
+        </div>
+    </div>
+{% endblock %}
+

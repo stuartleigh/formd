@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+    <section id="hero">
+        <div class="row">
+            <div class="hero_content">
+            <hgroup>
+                <h1>Form processing. Simplified.</h1>
+                <h2>A hosted backend for your static websites.</h2>
+            </hgroup>
+            <div class="cta">
+                <a href="{% url 'sign-up' %}" class="btn">Sign up now</a><br />
+                <a href="#prices" class="prices">Click here for pricing plans</a>
+            </div>
+            </div>
+        </div>
+    </section>
+    <section class="info-panel light">
+        <div class="row">
+            <div class="intro_feature" id="your-site">
+                <img src="{% static 'images/website.png' %}">
+                <h3>Your forms</h3>
+                <p>Formd.io works with your own markup, submit whatever data you like, so long as you include your form token and point them at us, we'll handle the rest.</p>
+            </div>
+            <div class="intro_feature" id="our-site">
+                <img src="{% static 'images/server.png' %}">
+                <h3>Our servers</h3>
+                <p>Our high performance servers will receive requests from your uses and process them into templates that you have complete control over.</p>
+            </div>
+            <div class="intro_feature" id="your-email">
+                <img src="{% static 'images/email.png' %}">
+                <h3>Your email</h3>
+                <p>Get messages delivered straight to your inbox as they come in. All your messages are also securely stored in the cloud and you can access them anytime you want.</p>
+            </div>
+        </div>
+    </section>
+    <section class="info-panel dark">
+        <ul class="row">
+            <li class="selling_point">
+                <strong>access</strong><br />
+                a one liner describing above.
+            </li>
+            <li class="selling_point">
+                <strong>access</strong><br />
+                a one liner describing above.
+            </li>
+            <li class="selling_point">
+                <strong>access</strong><br />
+                a one liner describing above.
+            </li>
+            <li class="selling_point">
+                <strong>access</strong><br />
+                a one liner describing above.
+            </li>
+            <li class="selling_point">
+                <strong>access</strong><br />
+                a one liner describing above.
+            </li>
+            <li class="selling_point">
+                <strong>access</strong><br />
+                a one liner describing above.
+            </li>
+        </ul>
+    </section>
+    <section class="info-panel light" id="prices">
+        <div class="row">
+            <div class="plan">
+                <div class="price-group">
+                    <h4>Startup</h4>
+                    <span class="currency">&pound;</span><span class="price">8</span><span class="frequency">/mo</span>
+                </div>
+                <ul>
+                    <li>1 custom form</li>
+                    <li>1 domain</li>
+                    <li>250 messages/mo</li>
+                </ul>
+                <div class="cta">
+                    <a class="btn" href="{% url 'sign-up' %}?plan=startup">Sign up now</a>
+                </div>
+            </div>
+            <div class="plan">
+                <div class="price-group">
+                    <h4>Established</h4>
+                    <span class="currency">&pound;</span><span class="price">19</span><span class="frequency">/mo</span>
+                </div>
+                <ul>
+                    <li>3 custom forms</li>
+                    <li>2 domains</li>
+                    <li>1,000 messages/mo</li>
+                </ul>
+                <div class="cta">
+                    <a class="btn" href="{% url 'sign-up' %}?plan=established">Sign up now</a>
+                </div>
+            </div>
+            <div class="plan">
+                <div class="price-group">
+                    <h4>Freelancer</h4>
+                    <span class="currency">&pound;</span><span class="price">39</span><span class="frequency">/mo</span>
+                </div>
+                <ul>
+                    <li>10 custom forms</li>
+                    <li>5 domains</li>
+                    <li>5,000 messages/mo</li>
+                </ul>
+                <div class="cta">
+                    <a class="btn" href="{% url 'sign-up' %}?plan=freelancer">Sign up now</a>
+                </div>
+            </div>
+            <div class="plan">
+                <div class="price-group">
+                    <h4>Enterprise</h4>
+                    <span class="currency">&pound;</span><span class="price">149</span><span class="frequency">/mo</span>
+                </div>
+                <ul>
+                    <li>999 custom forms</li>
+                    <li>999 domains</li>
+                    <li>60,000 messages/mo</li>
+                </ul>
+                <div class="cta">
+                    <a class="btn" href="{% url 'sign-up' %}?plan=enterprise">Sign up now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block tail_js %}
+    {{ block.super }}
+    <script type="text/javascript">
+        formd.heroBanner();
+    </script>
+{% endblock %}
+

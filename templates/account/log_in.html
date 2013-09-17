@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block body %}
+	<section id="log-in">
+		<form action="" method="POST">
+			{% csrf_token %}
+			<div class="row">
+				<h1>Log in</h1>
+				{% if form.non_field_errors %}
+					<div class="long_field">
+						{{ form.non_field_errors }}
+					</div>
+				{% endif %}
+			</div>
+			<div class="row">
+				<div class="long_field">
+					{{ form.username.label_tag }}
+					{{ form.username }}
+					{% if form.username.errors %}
+						<span class="error_marker">X</span>
+						{{ form.username.errors }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="long_field">
+					{{ form.password.label_tag }}
+					{{ form.password }}
+					{% if form.password.errors %}
+						<span class="error_marker">X</span>
+						{{ form.password.errors }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="submit">
+					<input type="submit" value="Sign in" />
+				</div>
+			</div>
+		</form>
+	</section>
+{% endblock %}

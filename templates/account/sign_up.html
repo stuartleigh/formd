@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block body %}
+	<section id="sign-up">
+		<form action="" method="POST">
+		{% csrf_token %}
+			<div class="row">
+				<h1>Sign up</h1>
+                {% if form.non_field_errors %}
+                    <div class="long_field">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+			</div>
+			<div class="row">
+				<div class="long_field">
+					{{ form.email.label_tag }}
+					{{ form.email }}
+					{% if form.email.errors %}
+						<span class="error_marker">X</span>
+						{{ form.email.errors }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="short_field">
+					{{ form.password.label_tag}}
+					{{ form.password }}
+					{% if form.password.errors %}
+						<span class="error_marker">X</span>
+						{{ form.password.errors }}
+					{% endif %}
+				</div>
+				<div class="short_field">
+					{{ form.password_repeat.label_tag }}
+					{{ form.password_repeat }}
+					{% if form.password_repeat.errors %}
+						<span class="error_marker">X</span>
+						{{ form.password_repeat.errors }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="submit">
+					<input type="submit" value="Sign up" />
+				</div>
+			</div>
+		</form>
+	</section>
+{% endblock %}

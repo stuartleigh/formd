@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+@import
+	'foundation/_variables',
+	'formd/_colours';
+
+$logo-height: 91px;
+
+body {
+	padding-top: $logo-height + 20px;
+	min-height: 100%;
+	padding-bottom:320px;
+}
+
+#nav {
+	background: $primary;
+	padding: 10px 0;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 8000;
+}
+
+#account {
+	line-height: $logo-height;
+	color: #bbb;
+	float: right;
+	margin-right: 15px;
+
+	a {
+		color: $light;
+		line-height: 1;
+		margin: 0 5px;
+		font-size: 16px;
+
+		&.highlight {
+			@include button($bg:$highlight, $radius:$global-radius);
+			display: inline-block;
+			padding: 8px 16px;
+			box-shadow: $shadow-deep;
+			margin: 0 5px;
+		}
+	}
+}
+
+h1#logo {
+	padding-left: 70px;
+	line-height: $logo-height;
+	margin: 0 0 0 15px;
+	background: url(../images/logo.png) no-repeat left top;
+	float: left;
+	color: $light;
+}
+
+#footer {
+	background: $dark;
+	padding: 75px 0 10px;
+	text-align: center;
+	color: $light;
+	height: 320px;
+	box-sizing: border-box;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+
+	h3 {
+		color: $light;
+	}
+
+	.logo {
+		display: inline-block;
+		width: 79px;
+		height: $logo-height;
+		background: url(../images/logo.png) no-repeat center center;
+		overflow: hidden;
+		text-indent: 100%;
+	}
+
+	.smallprint {
+		font-size: 12px;
+		padding-top: 75px;
+
+		a {
+			color: $light;
+
+			&:hover {
+				color: $cta;
+				text-decoration: underline;
+			}
+		}
+	}
+}

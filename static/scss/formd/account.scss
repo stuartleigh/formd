@@ -1,0 +1,146 @@
+/* SIGN-UP */
+
+.long_field {
+	@include grid-column($columns:8, $push:2)
+}
+
+.short_field {
+	@include grid-column($columns:4, $push:2)
+}
+
+.tiny_field {
+    @include grid-column($columns:2, $push:2)
+}
+
+.submit {
+	@include grid-column($columns:4, $push:6);
+
+	input[type="submit"] {
+		@include button($is-input:true, $radius:$global-radius);
+		float: right;
+	}
+}
+
+/* TODO: Move this out to a forms.scss; */
+
+.errorlist {
+	list-style: none;
+	margin: 0;
+	font-size: 12px;
+	position: relative;
+	top: -10px;
+
+    li {
+        display: inline-block;
+        background: $red;
+        color: $light;
+        padding: 4px 8px;
+        border-radius: $global-radius;
+    }
+}
+
+.error_marker {
+	display: block;
+	background: $red;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 22;
+	right: 22;
+	border-radius: $global-radius;
+	color: $light;
+	text-align: center;
+	line-height: 20px;
+	font-size: 12px;
+}
+
+/* MY ACCOUNT */
+
+#account_nav {
+    @include grid-column($columns:2);
+}
+
+#content {
+    @include grid-column($columns:10);
+    padding-top: 0.875em;
+}
+
+#messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+
+    li {
+        display: inline-block;
+        padding: 3px 15px;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+    }
+
+    .success {
+        background: $highlight;
+        color: $white;
+    }
+
+    .error {
+        background: $red;
+        color: $white;
+    }
+}
+
+textarea {
+    height: 15em;
+}
+
+input[type="checkbox"] {
+    margin-top: 0.5em;
+}
+
+#example_form {
+    font-size: 12px;
+    width: 100%;
+    overflow-x: scroll;
+    white-space: pre;
+    background: $light;
+    padding: 20px;
+    border-radius: $global-radius;
+    line-height: 1.6em;
+}
+
+/* MY CONCEPTS */
+table {
+    width: 100%;
+
+    .cell_small {
+        width: 50px;
+    }
+}
+
+#new_form {
+    float: right;
+}
+
+.progress_count {
+    font-size: 12px;
+    line-height: 20px;
+    text-align: right;
+    padding-right: 5px;
+    position: absolute;
+    top: 3px;
+    right: 20px;
+}
+
+.upgrade_cta {
+    text-align: center;
+}
+
+.minimal {
+    color: $mid-grey;
+    font-size: 0.875em;
+}
+
+#message_template {
+    font-family: sans-serif;
+    line-height: 1.4em;
+}
