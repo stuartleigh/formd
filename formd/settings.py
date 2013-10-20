@@ -3,10 +3,6 @@ import os
 
 cwd = lambda x: os.path.join(os.path.dirname(os.path.realpath(__file__)), x)
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-DOMAIN = "localhost:8000"
-
 ADMINS = (
     ('Stuart Kelly', 'stuart.leigh83@gmail.com.com'),
 )
@@ -14,17 +10,6 @@ ADMINS = (
 MANAGERS = ADMINS
 
 AUTH_USER_MODEL = 'account.User'
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'formd',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '',
-    }
-}
 
 RQ_QUEUES = {
     'default': {
@@ -35,13 +20,9 @@ RQ_QUEUES = {
     },
 }
 
-MANDRILL_API_KEY = "E4MJbz56dH6qUky4LKsZUw"
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 FROM_EMAIL = "postmaster@formd.io"
 WELCOME_EMAIL_TEMPLATE = "formd-welcome"
-
-STRIPE_PUBLISHABLE_KEY = "pk_test_9K2fga0n6THZVn8E2bLnhK9R"
-STRIPE_API_KEY = "sk_test_MQFE4riHpC5Pprn62PjgCe6m"
 
 ALLOWED_HOSTS = ['*']
 
@@ -59,11 +40,7 @@ USE_TZ = True
 
 MEDIA_ROOT = ''
 
-MEDIA_URL = ''
-
 STATIC_ROOT = cwd('../public')
-
-STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     cwd('../static'),
@@ -128,26 +105,4 @@ INSTALLED_APPS = (
 
 LOGIN_URL = '/log-in/'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}
+from environment import *
