@@ -17,8 +17,8 @@ class Migration(DataMigration):
             "selectable": False,
         },
         "STANDARD": {
-            "name": "Standard",
-            "key": "standard_v01",
+            "name": "Light",
+            "key": "light_v01",
             "rate": 14,
             "domain_limit": 999,
             "form_limit": 999,
@@ -26,8 +26,8 @@ class Migration(DataMigration):
             "selectable": True,
         },
         "MEDIUM": {
-            "name": "Medium",
-            "key": "medium_v01",
+            "name": "Standard",
+            "key": "standard_v01",
             "rate": 24,
             "domain_limit": 999,
             "form_limit": 999,
@@ -35,8 +35,8 @@ class Migration(DataMigration):
             "selectable": True,
         },
         "HIGH": {
-            "name": "High",
-            "key": "high_v01",
+            "name": "Heavy",
+            "key": "heavy_v01",
             "rate": 49,
             "domain_limit": 999,
             "form_limit": 999,
