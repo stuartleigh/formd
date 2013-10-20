@@ -9,7 +9,9 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import ConceptRequestValidationForm, ConceptEditForm
+from formd.decorators import plan_required
+
+from .forms import ConceptRequestValidationForm, ConceptEditForm, ConceptNewForm
 from .models import Message, Concept
 
 
@@ -61,7 +63,7 @@ def message_api(request):
 	).save()
 
 	if request.is_ajax():
-		return http.HttpResponse(status_code=202)
+		return http.HttpResponse(status=202)
 
 	return_url = con.redirect_url or reverse('message-received')
 
@@ -70,7 +72,6 @@ def message_api(request):
 
 def message_received(request):
 	return http.HttpResponse("Message received, thank you")
-
 
 @login_required
 def my_concepts(request):
@@ -98,6 +99,22 @@ def view_concept(request, concept_code=None):
 
 	context = {
 		"concept": concept,
+		"form": form,
+	}
+
+	return TemplateResponse(request, 'concept/view_concept.html', context)
+
+@login_required
+def new_concept(request):
+	form = ConceptNewForm(request.POST or None)
+
+	if request.method == "POST":
+		if form.is_valid():
+			concept = form.save(request.user)
+			messages.success(request, 'Form {} added successfully.'.format(concept))
+			return redirect('view-concept', concept_code=concept.code)
+
+	context = {
 		"form": form,
 	}
 

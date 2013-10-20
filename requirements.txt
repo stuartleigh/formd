@@ -4,3 +4,4 @@ South==0.8.2
 requests==1.2.3
 djrill==0.6.0
 jsonfield==0.9.17
+stripe==1.9.4

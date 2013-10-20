@@ -1,0 +1,54 @@
+{% extends 'account/base.html' %}
+
+{% block subnav %}
+    {% with active="my-plan" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <p class="instruction warning">Deleting your account is immediate and can't be undone.</p>
+        <table id="account_details">
+            <thead>
+                <tr>
+                    <th colspan="2">Permanently delete your account</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="row_header">Username</td>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <td class="row_header">Account created at</td>
+                    <td>{{ user.date_joined }}</td>
+                </tr>
+                <tr>
+                    <td class="row_header">Total forms</td>
+                    <td>{{ user.concept_set.count }}</td>
+                </tr>
+                <tr>
+                    <td class="row_header">Total messages</td>
+                    <td>{{ total_messages }}</td>
+                </tr>
+                <tr>
+                    <td class="row_header">Messages this month</td>
+                    <td>{{ user.message_quota.used }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="inline-form">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <label for="#id_delete">Type "DELETE" to confirm deletion</label>
+                            {{ form.delete }}
+                            <input type="submit" value="close account" class="btn">
+                        </form>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}

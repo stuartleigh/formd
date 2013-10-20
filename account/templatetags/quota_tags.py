@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django import template
 
 register = template.Library()
@@ -6,7 +7,7 @@ register = template.Library()
 def quota_progress(user, quota_type):
     try:
         return getattr(user, "{}_quota".format(quota_type))()
-    except AttributeError:
+    except (AttributeError, ObjectDoesNotExist):
         return {
             "limit": 0,
             "used": 0,

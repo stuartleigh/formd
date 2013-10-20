@@ -14,11 +14,3 @@ def update_last_login(sender, user, **kwargs):
     """
     user.last_login = timezone.now()
     user.save(update_fields=['last_login'])
-
-
-@receiver(post_save, sender=User)
-def ensure_user_plan(sender, instance, created, **kwargs):
-	try:
-		plan = instance.plan
-	except UserPlan.DoesNotExist:
-		UserPlan(user=instance).save()

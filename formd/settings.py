@@ -5,6 +5,7 @@ cwd = lambda x: os.path.join(os.path.dirname(os.path.realpath(__file__)), x)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+DOMAIN = "localhost:8000"
 
 ADMINS = (
     ('Stuart Kelly', 'stuart.leigh83@gmail.com.com'),
@@ -37,6 +38,10 @@ RQ_QUEUES = {
 MANDRILL_API_KEY = "E4MJbz56dH6qUky4LKsZUw"
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 FROM_EMAIL = "postmaster@formd.io"
+WELCOME_EMAIL_TEMPLATE = "formd-welcome"
+
+STRIPE_PUBLISHABLE_KEY = "pk_test_9K2fga0n6THZVn8E2bLnhK9R"
+STRIPE_API_KEY = "sk_test_MQFE4riHpC5Pprn62PjgCe6m"
 
 ALLOWED_HOSTS = ['*']
 
@@ -93,6 +98,17 @@ WSGI_APPLICATION = 'formd.wsgi.application'
 
 TEMPLATE_DIRS = (
     cwd('../templates'),
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    'django.core.context_processors.request',
 )
 
 INSTALLED_APPS = (

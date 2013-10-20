@@ -58,10 +58,11 @@ class ConceptRequestValidationForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(ConceptRequestValidationForm, self).clean()
-        conn = self.get_concept()
+        if hasattr(self, 'con'):
+            conn = self.get_concept()
 
-        if conn.user.available_message_count < 1:
-            raise forms.ValidationError("Account exceeded message quota")
+            if conn.user.available_message_count < 1:
+                raise forms.ValidationError("Account exceeded message quota")
 
         return cleaned_data
 
@@ -74,3 +75,17 @@ class ConceptEditForm(forms.ModelForm):
     class Meta:
         model = Concept
         fields = ("name", "honeypot", "email", "subject", "template", "redirect_url", "active")
+
+class ConceptNewForm(forms.ModelForm):
+
+    class Meta:
+        model = Concept
+        fields = ("name", "honeypot", "email", "subject", "template", "redirect_url")
+
+    def save(self, user, *args, **kwargs):
+        concept = super(ConceptNewForm, self).save(commit=False)
+        concept.user = user
+        concept.active = True
+        concept.save()
+        return concept
+

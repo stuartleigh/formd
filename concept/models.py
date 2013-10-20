@@ -8,8 +8,8 @@ from concept.utils import gen_code, simple_render, send_message
 
 
 class ActiveManager(models.Manager):
-	def get_queryset(self):
-		return super(ActiveManager, self).get_queryset().filter(active=True)
+	def get_query_set(self):
+		return super(ActiveManager, self).get_query_set().filter(active=True)
 
 class Concept(models.Model):
 	name = models.CharField(max_length=254, blank=True)

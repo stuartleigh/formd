@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body %}
+    <h1>Sorry you seem to be lost.</h1>
+    <p>If you followed a link here then it may have been copied wrong. Please double check and try again.</p>
+    <ul>
+        <li><a href="{% url 'homepage' %}">Home</a></li>
+        <li><a href="{% url 'log-in' %}">Log in</a></li>
+    </ul>
+{% endblock %}

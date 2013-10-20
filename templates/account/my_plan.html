@@ -7,5 +7,104 @@
 {% endblock %}
 
 {% block content %}
-    <p>This is the my plan page for {{ user.email }}
+    <div class="row">
+        <div class="plan disabled">
+            <ul>
+                <li class="name"><h4>Trial</h4></li>
+                <li class="messages">25 msg<span class="month">/month</span></li>
+                <li class="price">&pound;0<span class="month">/month</span></li>
+            </ul>
+        </div>
+        {% for plan in plans %}
+            <div class="plan{% if user.plan.key == plan.key %} disabled{% endif %}">
+                <ul>
+                    <li class="name"><h4>{{ plan.name }}</h4></li>
+                    <li class="messages">{{ plan.message_limit }} msg<span class="month">/month</span></li>
+                    <li class="price">&pound;{{ plan.rate }}<span class="month">/month</span></li>
+                </ul>
+                {% if not user.plan.key == plan.key %}
+                    {% if user.stripe_id %}
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="plan" value="{{ plan.key }}" />
+                            <input type="submit" class="cta btn" value="Upgrade now" />
+                        </form>
+                    {% else %}
+                        <a href="#" class="cta btn" data-plan="{{ plan.key }}">Upgrade now</a>
+                    {% endif %}
+                {% else %}
+                    <span class="current_plan">Current plan</span>
+                    <a class="close-account" href="{% url 'close-account' %}">Close account</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if not user.stripe_id %}
+    <section id="ccForm" style="display:none">
+        <form action="" method="POST" autocomplete="on" id="changePlanForm">
+            {% csrf_token %}
+            <input type="hidden" name="stripeToken" id="id_stripeToken" />
+            <input type="hidden" name="plan" value="trial" id="id_plan" />
+            <div class="row">
+                <div class="long_field">
+                    <label for="card_number">Card number</label>
+                    <input type="text" pattern="\d*" autocompletetype="cc-number" id="card_number" data-stripe="number" required />
+                </div>
+            </div>
+            <div class="row">
+                <div class="short_field cc-exp">
+                    <label for="card_exp_month">Expiration mm/yyyy</label>
+                    <input type="text" size="2" data-stripe="exp-month"/>
+                    /
+                    <input type="text" size="4" data-stripe="exp-year"/>
+                </div>
+                <div class="short_field">
+                    <label for="card_cvc">CVC</label>
+                    <input type="text" pattern="\d*" autocompletetype="cc-csc" id="card_cvc" data-stripe="cvc" autocomplete="off"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="submit">
+                    <input type="submit" value="Complete upgrade" />
+                </div>
+            </div>
+        </form>
+    </section>
+    {% endif %}
+{% endblock %}
+
+{% block tail_js %}
+    {{ block.super }}
+    {% if not user.stripe_id %}
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+        // This identifies your website in the createToken call below
+        Stripe.setPublishableKey('{{ publishable_key }}');
+
+        jQuery(function($) {
+
+            $('.cta').on('click', function(event) {
+                event.preventDefault();
+                $('#id_plan').val($(this).data('plan'));
+                $('#ccForm').slideDown();
+            });
+
+            $('#changePlanForm').submit(function(event){
+                event.preventDefault();
+
+                $(this).find('input[type="submit"]').prop('disabled', true);
+                Stripe.createToken($(this), stripeResponseHandler);
+            });
+
+            var stripeResponseHandler = function(status, response) {
+                var $form = $('#changePlanForm');
+                var token = response.id;
+
+                $('#id_stripeToken', $form).val(token);
+                $form.get(0).submit();
+            }
+        });
+    </script>
+    {% endif %}
 {% endblock %}

@@ -17,15 +17,13 @@
 	}
 
 	.cta {
-		a.prices {
+		span.prices {
 			color: $light;
 		}
-
-
 	}
 }
 
-a.btn {
+a.btn, input.btn {
 	@include button($radius:$global-radius);
 	box-shadow: $shadow-deep;
 	margin-bottom: 15px;
@@ -58,61 +56,72 @@ a.btn {
 	}
 }
 
-.selling_point {
-	@include grid-column(4);
+#selling_points {
+	@include block-grid(3);
+}
 
-	line-height: 21px;
-	padding-left: 27px;
-	background: url(/static/images/tick.png) no-repeat left 2px;
-	margin: 10px 0;
+blockquote {
+	margin-bottom: 0;
+	color: $light;
+	border-width: 2px;
+	cite {
+		color: $light;
+	}
 }
 
 .plan {
 	@include grid-column(3);
 
-	.price-group {
-		background: $highlight;
-		font-family: "Dosis", sans-serif;
-		font-weight: 400;
-		text-align: center;
-		padding: 35px 0 45px;
-		color: $light;
+	text-align: center;
 
-		h4 {
-			text-transform: uppercase;
-			color: $light;
-		}
+	&.disabled {
+		color: $dark-grey;
 
-		.price {
-			font-size: 68px;
-		}
+		ul {
+			border-color: $mid-grey;
 
-		.currency {
-			vertical-align: top;
-			font-size: 26px;
-			margin-right: 2px;
-		}
+			.name {
+				background-color: $mid-grey;
+			}
 
-	}
-
-	ul {
-		list-style: none;
-		margin: 10px 0;
-
-		li {
-			padding: 10px 20px;
-			border-bottom: 1px dashed $primary;
-			text-align: center;
-
-			&:last-child {
-				border-bottom: none;
+			.messages {
+				border-color: $mid-grey;
 			}
 		}
 	}
 
-	.cta {
-		text-align: center;
+	ul {
+		list-style: none;
+		margin: 0 0 15px;
+		border-radius: $global-radius;
+		border: 1px solid $highlight;
+
+		li {
+			padding: 10px 0;
+		}
+		.name {
+			background: $highlight;
+
+			h4 {
+				margin: 0;
+				color: $light;
+				text-transform: uppercase;
+			}
+		}
+		.messages {
+			border-bottom: 1px solid $highlight;
+		}
 	}
+
+	.month {
+		font-size: 12px;
+	}
+
+	.current_plan {
+		@include button($radius:$global-radius, $bg:$mid-grey);
+	}
+
+
 }
 
 

@@ -6,6 +6,7 @@ window.formd = (function(formd){
         $(document).ready(function(){
             var message_list = $('#messages');
             if($('li', message_list).length > 0) {
+                message_list.slideDown();
                 window.setTimeout(function(){message_list.slideUp()}, 3000);
             }
         });

@@ -5,7 +5,11 @@
 }
 
 .short_field {
-	@include grid-column($columns:4, $push:2)
+	@include grid-column($columns:4, $push:2);
+    &.cc-exp input {
+        width: 117px;
+        display: inline-block;
+    }
 }
 
 .tiny_field {
@@ -19,6 +23,10 @@
 		@include button($is-input:true, $radius:$global-radius);
 		float: right;
 	}
+
+    a {
+        line-height: 42px;
+    }
 }
 
 /* TODO: Move this out to a forms.scss; */
@@ -54,6 +62,27 @@
 	font-size: 12px;
 }
 
+.inline-form {
+    text-align: right;
+    padding: 20px 30px;
+    border-top: 1px solid #ddd;
+    form {
+        margin-bottom: 0;
+    }
+    a {
+        margin-bottom: 0;
+    }
+    input {
+        display: inline-block;
+        max-width: 50%;
+        margin-bottom: 0;
+    }
+    label {
+        display: inline-block;
+        margin-right: 15px;
+    }
+}
+
 /* MY ACCOUNT */
 
 #account_nav {
@@ -87,6 +116,11 @@
         background: $red;
         color: $white;
     }
+
+    .warning {
+        background: $orange;
+        color: $white;
+    }
 }
 
 textarea {
@@ -115,20 +149,29 @@ table {
     .cell_small {
         width: 50px;
     }
-}
+    .actions {
+        width: 1px;
+        white-space: nowrap;
+        font-size: 18px;
+        text-align: right;
+    }
 
-#new_form {
-    float: right;
+    .row_header {
+        width: 30%;
+        font-weight: bold;
+    }
 }
-
-.progress_count {
-    font-size: 12px;
-    line-height: 20px;
-    text-align: right;
-    padding-right: 5px;
-    position: absolute;
-    top: 3px;
-    right: 20px;
+.progress {
+    position: relative;
+    .progress_count {
+        font-size: 12px;
+        line-height: 20px;
+        text-align: right;
+        padding-right: 5px;
+        position: absolute;
+        top: 2px;
+        right: 20px;
+    }
 }
 
 .upgrade_cta {
@@ -143,4 +186,48 @@ table {
 #message_template {
     font-family: sans-serif;
     line-height: 1.4em;
+}
+
+.instruction {
+    text-align: center;
+    font-size: 12px;
+    width: 100%;
+    background: $light;
+    padding: 20px;
+    border-radius: $global-radius;
+    line-height: 1.6em;
+    margin-bottom: 5px;
+
+    &.warning {
+        background: $red;
+        color: $white;
+        font-size: 16px;
+    }
+}
+
+.blocked_text {
+    width: 100%;
+    background: $light;
+    padding: 20px;
+    border-radius: $global-radius;
+    line-height: 1.6em;
+    margin-bottom: 5px
+}
+
+#ccForm {
+    margin-top: 30px;
+    border-top: 1px solid #ccc;
+    padding-top: 30px;
+}
+
+.getting_started {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    a {
+        display: block;
+        border: 1px solid #ccc;
+        margin: 10px 0;
+        padding: 15px 20px;
+    }
 }

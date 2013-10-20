@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Domain quota</h2>
-    {% quota_progress user "domain" %}
-    <h2>Form quota</h2>
-    {% quota_progress user "concept" %}
-    <h2>Message quota</h2>
     {% quota_progress user "message" %}
+    <ul class="getting_started">
+        <li><a href="{% url 'my-domains' %}"><h4>Add a domain</h4> <span>Messages will only be accepted from domains attached to your account</span></a></li>
+        <li><a href="{% url 'new-concept' %}"><h4>Add a form</h4> <span>Form templates have a unique token that will be used to validate the incoming data and send you a message</span></a></li>
+        <li><a href="{% url 'my-plan' %}"><h4>Upgrade your plan</h4> <span>Once you're ready to start accepting more messages, upgrade your plan to match the volume of traffic you expect to receive.</span></a></li>
+    </ul>
 {% endblock %}

@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if messages %}
-        <ul id="messages">
+        <ul id="messages" style="display:none">
             {% for message in messages %}
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
@@ -13,6 +13,7 @@
             <nav id="account_nav">
                 <ul class="side-nav">
                     <li{% if active == "my-account" %} class="active"{% endif %}><a href="{% url 'my-account' %}">My account</a></li>
+                    <li{% if active == "my-domains" %} class="active"{% endif %}><a href="{% url 'my-domains' %}">My domains</a></li>
                     <li{% if active == "my-concepts" %} class="active"{% endif %}><a href="{% url 'my-concepts' %}">My forms</a></li>
                     <li{% if active == "my-messages" %} class="active"{% endif %}><a href="{% url 'my-messages' %}">My messages</a></li>
                     <li class="divider"></li>

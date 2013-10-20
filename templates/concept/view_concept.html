@@ -1,5 +1,5 @@
 {% extends 'concept/my_concepts.html' %}
-
+{% load formd_tags %}
 {% block content %}
     <form action="" method="POST">
     {% csrf_token %}
@@ -12,6 +12,7 @@
                     {{ form.name.errors }}
                 {% endif %}
             </div>
+            {% if concept %}
             <div class="tiny_field">
                 {{ form.active.label_tag }}
                 {{ form.active }}
@@ -20,6 +21,8 @@
                     {{ form.active.errors }}
                 {% endif %}
             </div>
+            {% endif %}
+            {% comment %}
             <div class="tiny_field">
                 {{ form.honeypot.label_tag }}
                 {{ form.honeypot }}
@@ -28,6 +31,7 @@
                     {{ form.honeypot.errors }}
                 {% endif %}
             </div>
+            {% endcomment %}
         </div>
         <div class="row">
             <div class="short_field">
@@ -69,24 +73,33 @@
         </div>
         <div class="row">
             <div class="submit">
-                <input type="submit" value="Save changes" />
+                <input type="submit" value="{% if concept %}Save changes{% else %}Add form{% endif %}" />
             </div>
         </div>
         <div class="row">
+            {% if concept %}
+            <div class="long_field">
+                <pre class="instruction">token: {{ concept.code }}</pre>
+            </div>
             <div class="long_field">
                 <pre id="example_form">
                 </pre>
             </div>
+            {% else %}
+            <p class="instruction">Please save the form to generate an example embed code</p>
+            {% endif %}
         </div>
     <form>
 {% endblock %}
 
 {% block tail_js %}
     {{ block.super }}
+    {% if concept %}
     <script type="text/javascript">
         formd.example_form({
-            url: "{% url 'message-api' %}",
+            url: "http://{{ request.get_host }}{% url 'message-api' %}",
             code: "{{ concept.code }}"
         });
     </script>
+    {% endif %}
 {% endblock %}

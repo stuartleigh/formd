@@ -1,0 +1,40 @@
+{% extends 'account/base.html' %}
+{% load quota_tags %}
+
+{% block subnav %}
+    {% with active="my-domains" %}
+        {{ block.super }}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <p class="instruction">Messages will only be accepted if they originate from one of your domains listed here.</p>
+        <table id="domain_list">
+            <thead>
+                <tr>
+                    <th colspan="2">Domain URI</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for domain in domains %}
+                    <tr>
+                        <td>{{ domain.uri }}</td>
+                        <td class="actions"><a href="{% url 'delete-domain' id=domain.id %}" class="foundicon-trash"></a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="inline-form">
+                        <form action="{{ form.action }}" method="POST">
+                            {% csrf_token %}
+                            {{ form.uri }}
+                            <input type="submit" value="add domain" class="btn">
+                        </form>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}

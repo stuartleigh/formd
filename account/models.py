@@ -1,10 +1,14 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import (
 	AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
 )
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMessage
 from django.utils import timezone
+import stripe
 
 from plan.models import Plan, UserPlan, AbstractPlan
 from concept.models import Message
@@ -51,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
 
     date_joined = models.DateTimeField(default=timezone.now)
+    stripe_id = models.CharField(max_length=255, blank=True)
 
     objects = CustomUserManager()
 
@@ -74,30 +79,41 @@ class User(AbstractBaseUser, PermissionsMixin):
     	for field in AbstractPlan._meta.get_all_field_names():
     		setattr(self.plan, field, getattr(plan, field))
 
-    	self.plan.save()
+        if self.stripe_id and self.plan.rate:
+            stripe.api_key = settings.STRIPE_API_KEY
+            customer = stripe.Customer.retrieve(self.stripe_id)
+            customer.update_subscription(plan=self.plan.key)
+
+        self.plan.save()
+
+    def set_default_plan(self):
+        """ Only callable if userplan is not already set and if we have a pk """
+        try:
+            existing_plan = self.plan
+            return
+        except ObjectDoesNotExist:
+            UserPlan(user=self).save()
+            default_plan = Plan.objects.get(key="default")
+            self.set_plan(default_plan)
+
+    def send_welcome_email(self):
+        msg = EmailMessage(
+            to=[self.email],
+            from_email=settings.FROM_EMAIL
+        )
+        msg.template_name = settings.WELCOME_EMAIL_TEMPLATE
+        msg.template_content = {}
+        msg.send()
 
     def valid_domains(self):
     	return [domain.uri for domain in self.domain_set.all()]
 
-    def concept_quota(self):
-        limit = self.plan.form_limit
-        used = self.concept_set.filter(active=True).count()
-        perc = (used / limit) * 100
-        return {
-            "limit": limit,
-            "used": used,
-            "perc": perc,
-        }
-
-    @property
-    def available_concept_count(self):
-        quota = self.concept_quota()
-        return quota["limit"] - quota["used"]
-
     def message_quota(self):
         limit = int(self.plan.message_limit)
-        used = int(Message.objects.filter(concept__user=self).count())
-        perc = float(used) / float(limit) * 100
+        used = int(Message.objects.filter(concept__user=self, created_at__gte=self.plan.start_of_cycle()).count())
+
+        perc = 100 if limit is 0 else float(used) / float(limit) * 100
+
         return {
             "limit": limit,
             "used": used,
@@ -109,28 +125,32 @@ class User(AbstractBaseUser, PermissionsMixin):
         quota = self.message_quota()
         return quota["limit"] - quota["used"]
 
-    def domain_quota(self):
-        limit = int(self.plan.domain_limit)
-        used = int(self.domain_set.count())
-        perc = float(used) / float(limit) * 100
-        return {
-            "limit": limit,
-            "used": used,
-            "perc": perc,
-        }
+    def deactivate(self):
+        inactive_plan = Plan.objects.get(key="inactive")
+        self.set_plan(inactive_plan)
 
-    @property
-    def available_domain_count(self):
-        quota = self.message_quota()
-        return quota["limit"] - quota["used"]
+        self.cancel_stripe_subscription()
+
+        self.concept_set.update(active=False)
+
+        self.is_active = False
+        self.is_staff = False
+        self.is_superuser = False
+
+        self.save()
+
+    def cancel_stripe_subscription(self):
+        if not self.stripe_id:
+            return
+
+        stripe.api_key = settings.STRIPE_API_KEY
+        cu = stripe.Customer.retrieve(self.stripe_id)
+        cu.cancel_subscription()
 
 class Domain(models.Model):
 
 	user = models.ForeignKey(User)
 	uri = models.CharField(max_length=100, db_index=True)
-
-
-
 
 
 import account.signals

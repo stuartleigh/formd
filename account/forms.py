@@ -1,8 +1,11 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.mail import EmailMessage
+import stripe
 
-from .models import User
+from .models import User, Domain
 
 
 class UserCreationForm(forms.ModelForm):
@@ -42,6 +45,8 @@ class UserCreationForm(forms.ModelForm):
 
 		user.set_password(self.cleaned_data['password'])
 		user.save()
+		user.send_welcome_email()
+		user.set_default_plan()
 
 		return authenticate(username=user.email, password=self.cleaned_data['password'])
 
@@ -51,3 +56,61 @@ class UserAuthenticationForm(AuthenticationForm):
 		'invalid_login': "Your email address or password was invalid.",
         'inactive': "Your account is inactive.",
     }
+
+
+class DomainForm(forms.ModelForm):
+
+	class Meta:
+		model = Domain
+		fields = ('uri',)
+
+	def __init__(self, *args, **kwargs):
+		self.user = kwargs.pop('user')
+		super(DomainForm, self).__init__(*args, **kwargs)
+
+	def save(self, commit=True):
+		domain = super(DomainForm, self).save(commit=False)
+		domain.user = self.user
+		if commit:
+			domain.save()
+
+		return domain
+
+
+class StripeTokenForm(forms.Form):
+    stripeToken = forms.CharField(widget=forms.HiddenInput)
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(StripeTokenForm, self).__init__(*args, **kwargs)
+
+    def clean_stripeToken(self):
+        stripe.api_key = settings.STRIPE_API_KEY
+        try:
+            self.customer = stripe.Customer.create(card=self.cleaned_data['stripeToken'], email=self.user.email)
+        except stripe.CardError, error:
+            err = error.json_body
+            raise forms.ValidationError(err['code'])
+
+    def save(self):
+        self.user.stripe_id = self.customer.id
+        self.user.save()
+
+
+class CloseAccountForm(forms.ModelForm):
+
+    delete = forms.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ('is_active',)
+
+    def clean_delete(self):
+        val = self.cleaned_data['delete']
+        if val.upper() != 'DELETE':
+            raise forms.ValidationError('Invalid delete command')
+
+    def save(self, *args, **kwargs):
+        user = super(CloseAccountForm, self).save(commit=False)
+        user.deactivate()
+

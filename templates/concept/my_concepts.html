@@ -8,38 +8,36 @@
 {% endblock %}
 
 {% block content %}
-    {% quota_progress user "concept" %}
+    <div class="row">
+        <table id="form_list">
+            <thead>
+                <tr>
+                    <th>Form</th>
+                    <th>Active</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for concept in concepts %}
+                    <tr>
+                        <td>{{ concept }}</td>
+                        <td class="cell_small">{{ concept.active }}</td>
+                        <td class="cell_small"><a href="{% url 'view-concept' concept_code=concept.code %}">edit</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="inline-form">
+                        <a href="{% url 'new-concept' %}" class="btn" id="new_form">Add new form</a>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
     <div class="row">
         <div class="long_field">
-            <table id="form_list">
-                <thead>
-                    <tr>
-                        <th>Form</th>
-                        <th>Active</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for concept in concepts %}
-                        <tr>
-                            <td>{{ concept }}</td>
-                            <td class="cell_small">{{ concept.active }}</td>
-                            <td class="cell_small"><a href="{% url 'view-concept' concept_code=concept.code %}">edit</a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+
         </div>
     </div>
-    {% if user.available_concept_count > 0 %}
-        <div class="row">
-            <div class="long_field">
-                <a href="#" class="btn" id="new_form">Add new form</a>
-            </div>
-        </div>
-    {% else %}
-        <div class="row upgrade_cta">
-            <p>Upgrade your plan for access to more forms. <a href="{% url 'my-plan' %}">Upgrade now</a></p>
-        </div>
-    {% endif %}
 {% endblock %}

@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
 {% block body %}
 	<section id="sign-up">
-		<form action="" method="POST">
+		<form action="" method="POST" autocomplete="on" id="signUpForm">
 		{% csrf_token %}
+		{{ form.stripeToken }}
 			<div class="row">
 				<h1>Sign up</h1>
                 {% if form.non_field_errors %}

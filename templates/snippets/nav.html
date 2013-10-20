@@ -3,8 +3,7 @@
         <a href="/"><h1 id="logo">formd.io</h1></a>
         <div id="account">
             {% if user.is_authenticated %}
-                Welcome {{ user.email }}
-                <a href="{% url 'my-account' %}">account</a>
+                <a href="{% url 'my-account' %}">my account</a>
                 <a href="{% url 'logout' %}">log out</a>
             {% else %}
                 <a href="{% url 'log-in' %}">Log in</a>

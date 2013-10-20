@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block css %}
+    {{ block.super }}
+    <style type="text/css">
+        #nav {
+            position: fixed;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
     <section id="hero">
         <div class="row">
@@ -11,7 +20,7 @@
             </hgroup>
             <div class="cta">
                 <a href="{% url 'sign-up' %}" class="btn">Sign up now</a><br />
-                <a href="#prices" class="prices">Click here for pricing plans</a>
+                <span class="prices">Free trial - no credit card requird</span>
             </div>
             </div>
         </div>
@@ -21,12 +30,12 @@
             <div class="intro_feature" id="your-site">
                 <img src="{% static 'images/website.png' %}">
                 <h3>Your forms</h3>
-                <p>Formd.io works with your own markup, submit whatever data you like, so long as you include your form token and point them at us, we'll handle the rest.</p>
+                <p>Formd.io works with your own markup, submit whatever data you like, so long as you include your form token and point it at us, we'll handle the rest.</p>
             </div>
             <div class="intro_feature" id="our-site">
                 <img src="{% static 'images/server.png' %}">
                 <h3>Our servers</h3>
-                <p>Our high performance servers will receive requests from your uses and process them into templates that you have complete control over.</p>
+                <p>Our servers will receive requests from your uses and process them into templates that you have complete control over.</p>
             </div>
             <div class="intro_feature" id="your-email">
                 <img src="{% static 'images/email.png' %}">
@@ -35,91 +44,83 @@
             </div>
         </div>
     </section>
+    {% comment %}
     <section class="info-panel dark">
-        <ul class="row">
-            <li class="selling_point">
-                <strong>access</strong><br />
-                a one liner describing above.
-            </li>
-            <li class="selling_point">
-                <strong>access</strong><br />
-                a one liner describing above.
-            </li>
-            <li class="selling_point">
-                <strong>access</strong><br />
-                a one liner describing above.
-            </li>
-            <li class="selling_point">
-                <strong>access</strong><br />
-                a one liner describing above.
-            </li>
-            <li class="selling_point">
-                <strong>access</strong><br />
-                a one liner describing above.
-            </li>
-            <li class="selling_point">
-                <strong>access</strong><br />
-                a one liner describing above.
-            </li>
-        </ul>
+        <div class="row">
+            <ul class="row" id="selling_points">
+                <li class="selling_point">
+                    <strong>Secure</strong><br />
+                    a one liner describing above.
+                </li>
+                <li class="selling_point">
+                    <strong>Reliable</strong><br />
+                    a one liner describing above.
+                </li>
+                <li class="selling_point">
+                    <strong>Fast</strong><br />
+                    a one liner describing above.
+                </li>
+                <li class="selling_point">
+                    <strong>Simple</strong><br />
+                    a one liner describing above.
+                </li>
+                <li class="selling_point">
+                    <strong>access</strong><br />
+                    a one liner describing above.
+                </li>
+                <li class="selling_point">
+                    <strong>access</strong><br />
+                    a one liner describing above.
+                </li>
+            </ul>
+        </div>
+    </section>
+    {% endcomment %}
+    <section class="info-panel dark">
+        <div class="row">
+            <blockquote>
+                Using formd.io allowed me to add a simple contact form to my website, replacing my old email links and increased engagement with visitors by over 200%.
+                <cite>Vickie Biscoe - http://www.nailsbybiscuit.co.uk</cite>
+            </blockquote>
+        </div>
     </section>
     <section class="info-panel light" id="prices">
         <div class="row">
             <div class="plan">
-                <div class="price-group">
-                    <h4>Startup</h4>
-                    <span class="currency">&pound;</span><span class="price">8</span><span class="frequency">/mo</span>
-                </div>
                 <ul>
-                    <li>1 custom form</li>
-                    <li>1 domain</li>
-                    <li>250 messages/mo</li>
+                    <li class="name"><h4>Trial</h4></li>
+                    <li class="messages">Unlimited forms</li>
+                    <li class="messages">Unlimited domains</li>
+                    <li class="messages">25 msg<span class="month">/month</span></li>
+                    <li class="price">&pound;0<span class="month">/month</span></li>
                 </ul>
-                <div class="cta">
-                    <a class="btn" href="{% url 'sign-up' %}?plan=startup">Sign up now</a>
-                </div>
             </div>
             <div class="plan">
-                <div class="price-group">
-                    <h4>Established</h4>
-                    <span class="currency">&pound;</span><span class="price">19</span><span class="frequency">/mo</span>
-                </div>
                 <ul>
-                    <li>3 custom forms</li>
-                    <li>2 domains</li>
-                    <li>1,000 messages/mo</li>
+                    <li class="name"><h4>Light</h4></li>
+                    <li class="messages">Unlimited forms</li>
+                    <li class="messages">Unlimited domains</li>
+                    <li class="messages">250 msg<span class="month">/month</span></li>
+                    <li class="price">&pound;14<span class="month">/month</span></li>
                 </ul>
-                <div class="cta">
-                    <a class="btn" href="{% url 'sign-up' %}?plan=established">Sign up now</a>
-                </div>
             </div>
             <div class="plan">
-                <div class="price-group">
-                    <h4>Freelancer</h4>
-                    <span class="currency">&pound;</span><span class="price">39</span><span class="frequency">/mo</span>
-                </div>
                 <ul>
-                    <li>10 custom forms</li>
-                    <li>5 domains</li>
-                    <li>5,000 messages/mo</li>
+                    <li class="name"><h4>Standard</h4></li>
+                    <li class="messages">Unlimited forms</li>
+                    <li class="messages">Unlimited domains</li>
+                    <li class="messages">1000 msg<span class="month">/month</span></li>
+                    <li class="price">&pound;29<span class="month">/month</span></li>
                 </ul>
-                <div class="cta">
-                    <a class="btn" href="{% url 'sign-up' %}?plan=freelancer">Sign up now</a>
-                </div>
             </div>
             <div class="plan">
-                <div class="price-group">
-                    <h4>Enterprise</h4>
-                    <span class="currency">&pound;</span><span class="price">149</span><span class="frequency">/mo</span>
-                </div>
                 <ul>
-                    <li>999 custom forms</li>
-                    <li>999 domains</li>
-                    <li>60,000 messages/mo</li>
+                    <li class="name"><h4>Heavy</h4></li>
+                    <li class="messages">Unlimited forms</li>
+                    <li class="messages">Unlimited domains</li>
+                    <li class="messages">5000 msg<span class="month">/month</span></li>
+                    <li class="price">&pound;49<span class="month">/month</span></li>
                 </ul>
-                <div class="cta">
-                    <a class="btn" href="{% url 'sign-up' %}?plan=enterprise">Sign up now</a>
-                </div>
             </div>
         </div>
     </section>
