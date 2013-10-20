@@ -97,7 +97,7 @@
     {% if concept %}
     <script type="text/javascript">
         formd.example_form({
-            url: "http://{{ request.get_host }}{% url 'message-api' %}",
+            url: "http://{{ domain }}{% url 'message-api' %}",
             code: "{{ concept.code }}"
         });
     </script>

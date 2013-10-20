@@ -2,6 +2,7 @@ import json
 from urlparse import urlparse
 
 from django import http
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -100,6 +101,7 @@ def view_concept(request, concept_code=None):
 	context = {
 		"concept": concept,
 		"form": form,
+		"domain": settings.DOMAIN,
 	}
 
 	return TemplateResponse(request, 'concept/view_concept.html', context)
