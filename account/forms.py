@@ -90,7 +90,7 @@ class StripeTokenForm(forms.Form):
             self.customer = stripe.Customer.create(card=self.cleaned_data['stripeToken'], email=self.user.email)
         except stripe.CardError, error:
             err = error.json_body
-            raise forms.ValidationError(err['code'])
+            raise forms.ValidationError(err)
 
     def save(self):
         self.user.stripe_id = self.customer.id
