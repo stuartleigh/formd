@@ -21,7 +21,7 @@ def my_plan(request):
             if stripeForm.is_valid():
                 stripeForm.save()
             else:
-                import ipdb; ipdb.set_trace()
+                return redirect('card-declined')
 
         planForm = ChangePlanForm(request.POST, user=request.user)
         if planForm.is_valid():
@@ -36,3 +36,8 @@ def my_plan(request):
     }
 
     return TemplateResponse(request, 'account/my_plan.html', context)
+
+
+@login_required
+def card_declined(request):
+    return TemplateResponse(request, 'account/card_declined.html', {})
