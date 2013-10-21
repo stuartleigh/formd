@@ -8,7 +8,10 @@ window.formd = (function(formd) {
         $(document).ready(function(){
             var $example = $('#example_form');
             var render = (function render() {
-                var placeholders = $('#id_template').val().match(/{{\s*[\w\.]+\s*}}/g).map(function(x) { return x.match(/[\w\.]+/)[0]; });
+                var placeholders = $('#id_template').val().match(/{{\s*[\w\.]+\s*}}/g)
+                if(placeholders) {
+                    placeholders = placeholders.map(function(x) { return x.match(/[\w\.]+/)[0]; });
+                }
                 data.placeholders = _.uniq(placeholders);
                 $example.text(_.template(template, data));
                 return render;
